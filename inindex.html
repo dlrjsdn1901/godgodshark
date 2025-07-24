@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seating Arrangement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(6, 50px);
+            gap: 20px;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+            font-size: 1.5rem;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="board" id="seatingBoard"></div>
+<button id="resetButton">Try Again</button>
+
+<script>
+    function createSeating() {
+        const board = document.getElementById("seatingBoard");
+        board.innerHTML = ''; // Clear the board before creating new seating
+        const seats = Array.from({ length: 32 }, (_, i) => i + 1).filter(num => num !== 6);
+
+        // Shuffle the array of seats (Fisher-Yates Shuffle)
+        for (let i = seats.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [seats[i], seats[j]] = [seats[j], seats[i]];
+        }
+
+        seats.forEach(num => {
+            const seatDiv = document.createElement("div");
+            seatDiv.className = "seat";
+            seatDiv.textContent = num;
+            board.appendChild(seatDiv);
+        });
+    }
+
+    document.getElementById("resetButton").addEventListener("click", createSeating);
+
+    // Initial seating arrangement
+    createSeating();
+</script>
+
+</body>
+</html>
